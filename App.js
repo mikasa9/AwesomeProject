@@ -1,5 +1,13 @@
 import React, { Component } from 'react';
-import { Text, View, StyleSheet, FlatList, Image } from 'react-native';
+import {
+  Text,
+  View,
+  StyleSheet,
+  FlatList,
+  Image,
+  TouchableOpacity,
+  Modal
+} from 'react-native';
 
 const Data = [
   { id: '1', img: 'http://cdn.playbuzz.com/cdn//b8dc6916-550f-4254-87ca-bc83500cd071/599f8f89-3554-4263-b7b1-822957dcc3bc.jpg', text: 'babli' },
@@ -19,11 +27,27 @@ const Data = [
 
 export default class App extends Component {
 
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      isModalViewVisible: false
+    };
+  }
+
+  toggleModalView = () => {
+    this.setState({
+      isModalViewVisible: !this.state.isModalViewVisible
+    });
+  }
+
   takeKey = ({ id }) => id;
 
   extractItems = ({ item }) => {
     return (
-      <View style={styles.row}>
+      <TouchableOpacity
+        onPress={this.toggleModalView}
+        style={styles.row}>
         <View style={{ flex: 1, }}>
           <Image
             style={styles.imageStyle}
@@ -42,7 +66,7 @@ export default class App extends Component {
           {item.id}
           </Text>
         </View>
-      </View>
+      </TouchableOpacity>
 
     );
   }
@@ -51,15 +75,31 @@ export default class App extends Component {
 
   render() {
     return (
-      <FlatList
-        style={styles.container}
-        data={Data}
-        renderItem={this.extractItems}
-        keyExtractor={this.takeKey}
-        showsVerticalScrollIndicator={false}
+      <View style={styles.container}>
+        <FlatList
+          style={styles.container}
+          data={Data}
+          renderItem={this.extractItems}
+          keyExtractor={this.takeKey}
+          showsVerticalScrollIndicator={false}
 
-      />
+        />
+        <Modal
+          visible={this.state.isModalViewVisible}
+          transparent={false}
+          style={{ flex: 1, backgroundColor: 'yellow' }}
+          onRequestClose={ this.toggleModalView}
+        >
+          <Text style={styles.textStyle}>Hello Modal View</Text>
 
+          <TouchableOpacity
+
+            onPress={this.toggleModalView}
+          >
+            <Text style={{ padding: 15 }}> close</Text>
+          </TouchableOpacity>
+        </Modal>
+      </View>
     );
   }
 }
@@ -67,11 +107,11 @@ export default class App extends Component {
 const styles = StyleSheet.create({
   container: {
     marginTop: 20,
-    marginHorizontal:10,
+    marginHorizontal: 10,
 
     flex: 1,
 
-   // backgroundColor:'blue',
+    // backgroundColor:'blue',
   },
   row: {
     padding: 5,
@@ -79,9 +119,9 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     flexDirection: 'row',
     justifyContent: 'flex-start',
-    marginVertical:5,
-    marginHorizontal:5,
-    elevation:3,
+    marginVertical: 5,
+    marginHorizontal: 5,
+    elevation: 3,
   },
   textStyle: {
     color: '#000000',
