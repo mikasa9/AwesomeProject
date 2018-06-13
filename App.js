@@ -31,13 +31,16 @@ export default class App extends Component {
     super(props);
 
     this.state = {
-      isModalViewVisible: false
+      isModalViewVisible: false,
+      currentClickedItem: undefined
     };
   }
 
-  toggleModalView = () => {
+
+  toggleModalView = (currentClickedItem) => {
     this.setState({
-      isModalViewVisible: !this.state.isModalViewVisible
+      isModalViewVisible: !this.state.isModalViewVisible,
+      currentClickedItem
     });
   }
 
@@ -46,7 +49,7 @@ export default class App extends Component {
   extractItems = ({ item }) => {
     return (
       <TouchableOpacity
-        onPress={this.toggleModalView}
+        onPress={() => this.toggleModalView(item)}
         style={styles.row}>
         <View style={{ flex: 1, }}>
           <Image
@@ -88,16 +91,17 @@ export default class App extends Component {
           visible={this.state.isModalViewVisible}
           transparent={false}
           style={{ flex: 1, backgroundColor: 'yellow' }}
-          onRequestClose={ this.toggleModalView}
+          onRequestClose={this.toggleModalView}
         >
-          <Text style={styles.textStyle}>Hello Modal View</Text>
 
           <TouchableOpacity
 
             onPress={this.toggleModalView}
           >
-            <Text style={{ padding: 15 }}> close</Text>
+            <Text style={{ padding: 15 }}>{this.state.currentClickedItem?this.state.currentClickedItem.text:'n/a'}</Text>
           </TouchableOpacity>
+
+            <Image style={styles.imageStyle} source={{ uri:this.state.currentClickedItem?this.state.currentClickedItem.img:'' }}/>
         </Modal>
       </View>
     );
