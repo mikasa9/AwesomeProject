@@ -89,19 +89,21 @@ export default class App extends Component {
         />
         <Modal
           visible={this.state.isModalViewVisible}
-          transparent={false}
-
+          transparent={true}
           onRequestClose={this.toggleModalView}
         >
-          <Image style={styles.imageDetail} source={{ uri: this.state.currentClickedItem ? this.state.currentClickedItem.img : '' }} />
-          <TouchableOpacity
 
-            onPress={this.toggleModalView}
+          <View
+            style={{ flex: 1, justifyContent: 'center', alignItems: 'center',backgroundColor:'rgba(50,50,50,0.8)', }}
           >
-            <Text style={{ padding: 15, fontSize: 30, }}>{this.state.currentClickedItem ? this.state.currentClickedItem.text : 'n/a'}</Text>
-          </TouchableOpacity>
+            <Image style={styles.imageDetail} source={{ uri: this.state.currentClickedItem ? this.state.currentClickedItem.img : '' }} />
+            <TouchableOpacity
 
-
+              onPress={this.toggleModalView}
+            >
+              <Text style={{ padding: 15, fontSize: 30,color:'white', }}>{this.state.currentClickedItem ? this.state.currentClickedItem.text : 'n/a'}</Text>
+            </TouchableOpacity>
+          </View>
         </Modal>
       </View>
     );
@@ -115,7 +117,7 @@ const styles = StyleSheet.create({
 
     flex: 1,
 
-    
+
   },
   row: {
     padding: 5,
